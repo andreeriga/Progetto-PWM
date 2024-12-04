@@ -1,8 +1,11 @@
 const express = require('express');
 const { connectToDatabase } = require('./db');
 
+//Carica le variabili d'ambiente
+require('dotenv').config();
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.get("/users", async (req, res) => {
     let client;
