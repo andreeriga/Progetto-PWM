@@ -14,7 +14,7 @@ app.get("/users", async (req, res) => {
         const db = connection.db;
         client = connection.client;
 
-        const users = await db.collection("Users").find({}).limit(2).toArray();
+        const users = await db.collection("Users").find({}).toArray();
         res.send(users);
     } catch (err) {
         console.error("Errore nel recupero degli utenti:", err);

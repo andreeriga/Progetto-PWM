@@ -9,7 +9,7 @@ async function connectToDatabase() {
     try {
         await client.connect();
         console.log("Connesso a MongoDB");
-        const db = client.db("Test");
+        const db = client.db("PROGETTO-PWM");
         return { db, client };
     } catch (err) {
         console.error("Errore durante la connessione al database:", err);
