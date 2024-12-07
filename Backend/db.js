@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const crypto = require("crypto")
 
 require('dotenv').config();
 
@@ -17,4 +18,27 @@ async function connectToDatabase() {
     }
 }
 
-module.exports = { connectToDatabase };
+function generateHashedPassword(psw) {
+    return crypto.createHash("sha256").update(psw).digest("hex")
+}
+
+async function insertUser(db, user) {
+    console.log(user)
+    try {
+        var final_user = await db.collection("Users").insertOne({
+            'nome': user.nome,
+            'cognome': user.cognome,
+            'email': user.email,
+            'password': generateHashedPassword(user.password),
+            'preferito': user.preferito,
+            'figurine' : [],
+            'crediti' : 0
+        })
+        return final_user;
+    } catch(err) {
+        throw err
+    }
+
+}
+
+module.exports = { connectToDatabase, insertUser };
