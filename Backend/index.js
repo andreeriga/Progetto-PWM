@@ -1,5 +1,5 @@
 const express = require('express');
-const { connectToDatabase, insertUser } = require('./db');
+const { connectToDatabase, insertUser, logIn } = require('./db');
 const {ObjectId} = require('mongodb')
 
 //Carica le variabili d'ambiente
@@ -8,6 +8,11 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
+
+app.post("/login", function (req, res) {
+    user = req.body
+    logIn(user, res)
+})
 
 app.get("/users", async (req, res) => {
     let client;
