@@ -14,6 +14,27 @@ app.post("/login", function (req, res) {
     logIn(user, res)
 })
 
+app.delete('/users/:id', async function (req, res) {
+    let user_id = req.params.id
+    let client;
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        var msg = await db.collection("Users").deleteOne({ _id: ObjectId.createFromHexString(user_id) });
+        res.status(200).send(msg)
+    } catch (err) {
+        console.error("Errore nel recupero degli utenti:", err);
+        res.status(500).send({message:"errore interno del server"});
+    } finally {
+        if (client) {
+            await client.close();
+            console.log("Connessione a MongoDB chiusa");
+        }
+    }
+})
+
 app.get("/users", async (req, res) => {
     let client;
     try {
@@ -79,6 +100,36 @@ app.post("/users", async (req, res) => {
         }
     }
 });
+
+app.post('/credits/:id', async (req, res) => {
+    let client;
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        const user_id = req.params.id;
+
+        const myquery = { _id: new ObjectId(user_id) };
+        const update = { $set: { crediti: parseInt(req.body.crediti) } };
+
+        const result = await db.collection("Users").updateOne(myquery, update);
+
+        if (result.matchedCount === 0) {
+            return res.status(404).send({ error: "Utente non trovato" });
+        }
+
+        res.status(200).send({ message: "Crediti aggiornati con successo", result });
+    } catch (err) {
+        console.error("Errore nella route '/credits/:id':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
 
 app.listen(port, () => {
     console.log(`Server in ascolto su http://localhost:${port}`);

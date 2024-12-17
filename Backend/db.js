@@ -25,83 +25,87 @@ function generateHashedPassword(psw) {
     return crypto.createHash("sha256").update(psw).digest("hex")
 }
 
-async function insertUser(db, user) {
-    try {
-        if ((user.email == undefined || user.email == "") && (user.password == undefined || user.password == "")) {
-            var error = new Error("Email e password mancanti")
-            error.code = 400
-            throw error
-        }
-    
-        //controllo che abbia già inserito qualcosa nei campi(in questo caso solo la mail) della form per il login
-        if (user.email == undefined || user.email == "") {
-            var error = new Error("Email mancante")
-            error.code = 400
-            throw error
-        }
-    
-        //controllo che abbia già inserito qualcosa nei campi(in questo caso solo la password) della form per il login
-        if (user.password == undefined || user.password == "") {
-            var error = new Error("Password mancante")
-            error.code = 400
-            throw error
-        }
-        if (!validator.isEmail(user.email)) {
-            var error = new Error("Formattazione errata della mail")
-            error.code = 400
-            throw error
-        }
-        var final_user = await db.collection("Users").insertOne({
-            'nome': user.nome,
-            'cognome': user.cognome,
-            'email': user.email,
-            'password': generateHashedPassword(user.password),
-            'preferito': user.preferito,
-            'figurine': [],
-            'crediti': 0
-        })
-        return final_user;
-    } catch (err) {
-        throw err
+class ValidationError extends Error {
+    constructor(message, code) {
+        super(message);
+        this.name = "ValidationError";
+        this.code = code;
     }
+}
 
+function validateUserInput(user) {
+    if (!user.email && !user.password) {
+        throw new ValidationError("Email e password mancanti", 400);
+    }
+    if (!user.email) {
+        throw new ValidationError("Email mancante", 400);
+    }
+    if (!user.password) {
+        throw new ValidationError("Password mancante", 400);
+    }
+    if (!validator.isEmail(user.email)) {
+        throw new ValidationError("Formattazione errata della mail", 400);
+    }
+}
+
+async function insertUser(db, user) {
+    validateUserInput(user);
+
+    const finalUser = await db.collection("Users").insertOne({
+        nome: user.nome || null,
+        cognome: user.cognome || null,
+        email: user.email,
+        password: generateHashedPassword(user.password),
+        preferito: user.preferito || null,
+        figurine: [],
+        crediti: 0,
+    });
+
+    return finalUser;
+}
+
+function validateLoginInput(user) {
+    if (!user.email && !user.password) {
+        throw new ValidationError("Email e password mancanti", 400);
+    }
+    if (!user.email) {
+        throw new ValidationError("Email mancante", 400);
+    }
+    if (!user.password) {
+        throw new ValidationError("Password mancante", 400);
+    }
 }
 
 async function logIn(user, res) {
-    //controllo che abbia già inserito qualcosa nei campi(in questo caso entrambi) della form per il login
-    if ((user.email == undefined || user.email == "") && (user.password == undefined || user.password == "")) {
-        res.status(400).json({ message: "Email e password mancanti" })
-        return
-    }
+    try {
+        validateLoginInput(user);
 
-    //controllo che abbia già inserito qualcosa nei campi(in questo caso solo la mail) della form per il login
-    if (user.email == undefined || user.email == "") {
-        res.status(400).json({ message: "Email mancante" })
-        return
-    }
+        // Connessione al database
+        const pwmClient = await client.connect();
+        const user_find = await pwmClient.db("Test").collection("Users").findOne({
+            email: user.email
+        });
 
-    //controllo che abbia già inserito qualcosa nei campi(in questo caso solo la password) della form per il login
-    if (user.password == undefined || user.password == "") {
-        res.status(400).json({ message: "Password mancante" })
-        return
-    }
+        await client.close();
 
-    const pwmClient = await client.connect();
-    let user_find = await pwmClient.db("Test").collection("Users").findOne({
-        email: user.email
-    })
-    client.close()
-    if (user_find == null) {
-        res.status(400).json({ message: "Non esiste un utente con questa mail" })
-        return
+        if (!user_find) {
+            return res.status(400).json({ message: "Non esiste un utente con questa mail" });
+        }
+
+        const passwordMatch = generateHashedPassword(user.password) === user_find.password;
+        if (!passwordMatch) {
+            return res.status(400).json({ message: "Password errata" });
+        }
+
+        res.status(200).json({ user_credentials: user_find });
+    } catch (err) {
+        if (err instanceof ValidationError) {
+            res.status(err.code).json({ message: err.message });
+        } else {
+            console.error("Errore durante il login:", err);
+            res.status(500).json({ message: "Errore interno del server" });
+        }
     }
-    const password = user_find.password
-    const result = generateHashedPassword(user.password) == password
-    if (!result) {
-        res.status(400).json({ message: "Password errata" })
-        return
-    }
-    res.status(200).json({ user_credentials: user_find })
 }
 
 module.exports = { connectToDatabase, insertUser, logIn };
