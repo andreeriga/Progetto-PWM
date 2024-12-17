@@ -1,6 +1,9 @@
 const { MongoClient } = require('mongodb');
 const crypto = require("crypto")
 
+var validator = require('validator');
+
+
 require('dotenv').config();
 
 const uri = process.env.MONGO_URI
@@ -23,8 +26,12 @@ function generateHashedPassword(psw) {
 }
 
 async function insertUser(db, user) {
-    console.log(user)
     try {
+        if (!validator.isEmail(user.email)) {
+            var error =  new Error("Formattazione errata della mail")
+            error.code = 400
+            throw error
+        }
         var final_user = await db.collection("Users").insertOne({
             'nome': user.nome,
             'cognome': user.cognome,
