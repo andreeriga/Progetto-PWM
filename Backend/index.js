@@ -1,3 +1,4 @@
+
 const express = require('express');
 const { connectToDatabase, insertUser, logIn } = require('./db');
 const {ObjectId} = require('mongodb')
@@ -8,6 +9,24 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+// const swaggerDocument = require('./swagger-output.json');
+const swaggerOptions = {
+    swaggerDefinition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'API Documentation',
+        version: '1.0.0',
+        description: 'Documentazione delle API'
+      },
+    },
+    apis: ['./swagger.js'], // Percorso ai file contenenti le annotazioni Swagger
+  };
+  
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.post("/login", function (req, res) {
     user = req.body
@@ -78,6 +97,7 @@ app.get('/users/:id', async function (req, res) {
 })
 
 app.post("/users", async (req, res) => {
+    console.log(req.body);
     let client;
     try {
         const connection = await connectToDatabase();
@@ -129,7 +149,6 @@ app.post('/credits/:id', async (req, res) => {
         }
     }
 });
-
 
 app.listen(port, () => {
     console.log(`Server in ascolto su http://localhost:${port}`);

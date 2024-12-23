@@ -23,6 +23,7 @@
     "express": "^4.21.1",
     "mongodb": "^6.11.0",
     "swagger-autogen": "^2.23.7",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "validator": "^13.12.0"
   },
