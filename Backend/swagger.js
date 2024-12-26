@@ -406,3 +406,40 @@
  *       500:
  *         description: Errore interno del server
  */
+
+/**
+ * @swagger
+ * /signup:
+ *   post:
+ *     tags: [Accesso]
+ *     summary: Registra un nuovo utente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Email dell'utente
+ *               password:
+ *                 type: string
+ *                 description: Password dell'utente
+ *               nome:
+ *                 type: string
+ *                 description: Nome dell'utente
+ *               cognome:
+ *                 type: string
+ *                 description: Cognome dell'utente
+ *               preferito:
+ *                 type: integer
+ *                 description: Eroe preferito
+ *     responses:
+ *       200:
+ *         description: Utente registrato con successo
+ *       400:
+ *         description: Mail già registrata o richiesta non valida
+ *       500:
+ *         description: Errore interno del server
+ */
