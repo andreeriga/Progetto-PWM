@@ -1,5 +1,5 @@
 const express = require('express');
-const { connectToDatabase, insertUser, logIn, updateUser } = require('./db');
+const { connectToDatabase, insertUser, logIn, updateUser, signUp } = require('./db');
 const { ObjectId } = require('mongodb')
 
 require('dotenv').config();
@@ -29,6 +29,11 @@ app.post("/login", function (req, res) {
     user = req.body
     logIn(user, res)
 })
+
+app.post("/signup", async (req, res) => {
+    user = req.body
+    signUp(user, res)
+});
 
 app.delete('/users/:id', async function (req, res) {
     let user_id = req.params.id
