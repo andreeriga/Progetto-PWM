@@ -80,7 +80,6 @@ async function logIn(user, res) {
     try {
         validateLoginInput(user);
 
-        // Connessione al database
         const pwmClient = await client.connect();
         const user_find = await pwmClient.db("Test").collection("Users").findOne({
             email: user.email
@@ -108,4 +107,14 @@ async function logIn(user, res) {
     }
 }
 
-module.exports = { connectToDatabase, insertUser, logIn };
+async function updateUser(db, user, user_id) {
+    validateUserInput(user);
+
+    filter = {_id : user_id};
+    update_doc = {$set: user};
+
+    const finalUser = await db.collection("Users").updateOne(filter, update_doc);
+    return finalUser;
+}
+
+module.exports = { connectToDatabase, insertUser, logIn, updateUser };
