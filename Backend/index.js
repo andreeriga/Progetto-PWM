@@ -409,6 +409,111 @@ app.post('/accept_trade/:id', async (req, res) => {
     }
 });
 
+app.get('/available_trades', async (req, res) => {
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        const trades = await db.collection("Trades").find({ status: "available" }).toArray();
+        res.status(200).send(trades);
+    } catch (err) {
+        console.error("Errore nella route '/available_trades':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    }
+});
+
+app.get('/completed_trades', async (req, res) => {
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        const trades = await db.collection("Trades").find({ status: "completed" }).toArray();
+        res.status(200).send(trades);
+    } catch (err) {
+        console.error("Errore nella route '/completed_trades':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    }
+});
+
+app.get('/pending_trades', async (req, res) => {
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        const trades = await db.collection("Trades").find({ status: "pending" }).toArray();
+        res.status(200).send(trades);
+    } catch (err) {
+        console.error("Errore nella route '/pending_trades':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    }
+});
+
+app.get('/available_trades/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        const trades = await db.collection("Trades").find({
+            status: "available",
+            $or: [
+                { "user_1.id": id },
+                { "user_2.id": id }
+            ]
+        }).toArray();
+        res.status(200).send(trades);
+    } catch (err) {
+        console.error("Errore nella route '/available_trades/:id':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    }
+});
+
+app.get('/completed_trades/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        const trades = await db.collection("Trades").find({
+            status: "completed",
+            $or: [
+                { "user_1.id": id },
+                { "user_2.id": id }
+            ]
+        }).toArray();
+        res.status(200).send(trades);
+    } catch (err) {
+        console.error("Errore nella route '/completed_trades/:id':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    }
+});
+
+app.get('/pending_trades/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        const trades = await db.collection("Trades").find({
+            status: "pending",
+            $or: [
+                { "user_1.id": id },
+                { "user_2.id": id }
+            ]
+        }).toArray();
+        res.status(200).send(trades);
+    } catch (err) {
+        console.error("Errore nella route '/pending_trades/:id':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server in ascolto su http://localhost:${port}`);
 });

@@ -443,3 +443,276 @@
  *       500:
  *         description: Errore interno del server
  */
+
+/**
+ * @swagger
+ * /available_trades:
+ *   get:
+ *     tags: [Scambi]
+ *     summary: Recupera tutti gli scambi disponibili
+ *     responses:
+ *       200:
+ *         description: Lista di scambi disponibili recuperata con successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   user_1:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   user_2:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   status:
+ *                     type: string
+ *       500:
+ *         description: Errore interno del server
+ */
+
+/**
+ * @swagger
+ * /completed_trades:
+ *   get:
+ *     tags: [Scambi]
+ *     summary: Recupera tutti gli scambi completati
+ *     responses:
+ *       200:
+ *         description: Lista di scambi completati recuperata con successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   user_1:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   user_2:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   status:
+ *                     type: string
+ *       500:
+ *         description: Errore interno del server
+ */
+
+/**
+ * @swagger
+ * /pending_trades:
+ *   get:
+ *     tags: [Scambi]
+ *     summary: Recupera tutti gli scambi in sospeso
+ *     responses:
+ *       200:
+ *         description: Lista di scambi in sospeso recuperata con successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   user_1:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   user_2:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   status:
+ *                     type: string
+ *       500:
+ *         description: Errore interno del server
+ */
+
+/**
+ * @swagger
+ * /available_trades/{id}:
+ *   get:
+ *     tags: [Scambi]
+ *     summary: Recupera tutti gli scambi disponibili per un utente
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID dell'utente
+ *     responses:
+ *       200:
+ *         description: Lista di scambi disponibili recuperata con successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   user_1:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   user_2:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   status:
+ *                     type: string
+ *       500:
+ *         description: Errore interno del server
+ */
+
+/**
+ * @swagger
+ * /completed_trades/{id}:
+ *   get:
+ *     tags: [Scambi]
+ *     summary: Recupera tutti gli scambi completati per un utente
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID dell'utente
+ *     responses:
+ *       200:
+ *         description: Lista di scambi completati recuperata con successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   user_1:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   user_2:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   status:
+ *                     type: string
+ *       500:
+ *         description: Errore interno del server
+ */
+
+/**
+ * @swagger
+ * /pending_trades/{id}:
+ *   get:
+ *     tags: [Scambi]
+ *     summary: Recupera tutti gli scambi in sospeso per un utente
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID dell'utente
+ *     responses:
+ *       200:
+ *         description: Lista di scambi in sospeso recuperata con successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   user_1:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   user_2:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       trading_cards:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                   status:
+ *                     type: string
+ *       500:
+ *         description: Errore interno del server
+ */
