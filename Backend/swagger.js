@@ -8,6 +8,13 @@
 /**
  * @swagger
  * tags:
+ *   name: Figurine
+ *   description: Operazioni sulle figurine
+ */
+
+/**
+ * @swagger
+ * tags:
  *   name: Crediti
  *   description: Aggiornamento dei crediti di un utente
  */
@@ -19,6 +26,12 @@
  *   description: Aggiornamento degli scambi
  */
 
+/**
+ * @swagger
+ * tags:
+ *   name: Utenti
+ *   description: Operazioni sugli utenti
+ */
 
 /**
  * @swagger
@@ -44,13 +57,6 @@
  *         description: Richiesta non valida
  *       500:
  *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * tags:
- *   name: Utenti
- *   description: Operazioni sugli utenti
  */
 
 /**
@@ -212,7 +218,7 @@
  * @swagger
  * /trading_cards/{id}:
  *   post:
- *     tags: [Utenti]
+ *     tags: [Figurine]
  *     summary: Aggiorna le trading cards di un utente per ID
  *     parameters:
  *       - in: path
@@ -446,7 +452,7 @@
 
 /**
  * @swagger
- * /available_trades:
+ * /trades/available:
  *   get:
  *     tags: [Scambi]
  *     summary: Recupera tutti gli scambi disponibili
@@ -488,7 +494,7 @@
 
 /**
  * @swagger
- * /completed_trades:
+ * /trades/completed:
  *   get:
  *     tags: [Scambi]
  *     summary: Recupera tutti gli scambi completati
@@ -530,7 +536,7 @@
 
 /**
  * @swagger
- * /pending_trades:
+ * /trades/pending:
  *   get:
  *     tags: [Scambi]
  *     summary: Recupera tutti gli scambi in sospeso
@@ -572,7 +578,7 @@
 
 /**
  * @swagger
- * /available_trades/{id}:
+ * /trades/available/{id}:
  *   get:
  *     tags: [Scambi]
  *     summary: Recupera tutti gli scambi disponibili per un utente
@@ -621,7 +627,7 @@
 
 /**
  * @swagger
- * /completed_trades/{id}:
+ * /trades/completed/{id}:
  *   get:
  *     tags: [Scambi]
  *     summary: Recupera tutti gli scambi completati per un utente
@@ -670,7 +676,7 @@
 
 /**
  * @swagger
- * /pending_trades/{id}:
+ * /trades/pending/{id}:
  *   get:
  *     tags: [Scambi]
  *     summary: Recupera tutti gli scambi in sospeso per un utente
@@ -713,6 +719,77 @@
  *                           type: string
  *                   status:
  *                     type: string
+ *       500:
+ *         description: Errore interno del server
+ */
+
+/**
+ * @swagger
+ * /trading_cards/{id}:
+ *   get:
+ *     tags: [Figurine]
+ *     summary: Recupera le figurine di un utente per ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID dell'utente
+ *     responses:
+ *       200:
+ *         description: Figurine recuperate con successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 figurine:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *       400:
+ *         description: ID utente non valido
+ *       404:
+ *         description: Utente non trovato
+ *       500:
+ *         description: Errore interno del server
+ */
+
+/**
+ * @swagger
+ * /filtered_trading_cards/{id}:
+ *   get:
+ *     tags: [Figurine]
+ *     summary: Recupera le figurine di un utente con quantità maggiore di 1 per ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID dell'utente
+ *     responses:
+ *       200:
+ *         description: Figurine filtrate recuperate con successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 figurine:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       nome:
+ *                         type: string
+ *                       quantita:
+ *                         type: integer
+ *       400:
+ *         description: ID utente non valido
+ *       404:
+ *         description: Utente non trovato
  *       500:
  *         description: Errore interno del server
  */

@@ -208,7 +208,67 @@ app.get('/credits/:id', async (req, res) => {
     }
 });
 
+app.get('/trading_cards/:id', async (req, res) => {
+    let client;
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
 
+        const user_id = req.params.id;
+
+        if (!ObjectId.isValid(user_id)) {
+            return res.status(400).send({ error: "ID utente non valido" });
+        }
+
+        const user = await db.collection("Users").findOne({ _id: new ObjectId(user_id) });
+
+        if (!user) {
+            return res.status(404).send({ error: "Utente non trovato" });
+        }
+
+        res.status(200).send({ figurine: user.figurine });
+    } catch (err) {
+        console.error("Errore nella route '/figurine/:id':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+app.get('/filtered_trading_cards/:id', async (req, res) => {
+    let client;
+    try {
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        const user_id = req.params.id;
+
+        if (!ObjectId.isValid(user_id)) {
+            return res.status(400).send({ error: "ID utente non valido" });
+        }
+
+        const user = await db.collection("Users").findOne({ _id: new ObjectId(user_id) });
+
+        if (!user) {
+            return res.status(404).send({ error: "Utente non trovato" });
+        }
+
+        const filteredFigurine = user.figurine.filter(figurina => figurina.quantità > 1);
+
+        res.status(200).send({ figurine: filteredFigurine });
+    } catch (err) {
+        console.error("Errore nella route '/filtered_trading_cards/:id':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
 
 app.post('/trading_cards/:id', async (req, res) => {
     let client;
@@ -409,7 +469,7 @@ app.post('/accept_trade/:id', async (req, res) => {
     }
 });
 
-app.get('/available_trades', async (req, res) => {
+app.get('/trades/available', async (req, res) => {
     try {
         const connection = await connectToDatabase();
         const db = connection.db;
@@ -423,7 +483,7 @@ app.get('/available_trades', async (req, res) => {
     }
 });
 
-app.get('/completed_trades', async (req, res) => {
+app.get('/trades/completed', async (req, res) => {
     try {
         const connection = await connectToDatabase();
         const db = connection.db;
@@ -437,7 +497,7 @@ app.get('/completed_trades', async (req, res) => {
     }
 });
 
-app.get('/pending_trades', async (req, res) => {
+app.get('/trades/pending', async (req, res) => {
     try {
         const connection = await connectToDatabase();
         const db = connection.db;
@@ -451,7 +511,7 @@ app.get('/pending_trades', async (req, res) => {
     }
 });
 
-app.get('/available_trades/:id', async (req, res) => {
+app.get('/trades/available/:id', async (req, res) => {
     const id = req.params.id;
     try {
         const connection = await connectToDatabase();
@@ -472,7 +532,7 @@ app.get('/available_trades/:id', async (req, res) => {
     }
 });
 
-app.get('/completed_trades/:id', async (req, res) => {
+app.get('/trades/completed/:id', async (req, res) => {
     const id = req.params.id;
     try {
         const connection = await connectToDatabase();
@@ -493,7 +553,7 @@ app.get('/completed_trades/:id', async (req, res) => {
     }
 });
 
-app.get('/pending_trades/:id', async (req, res) => {
+app.get('/trades/pending/:id', async (req, res) => {
     const id = req.params.id;
     try {
         const connection = await connectToDatabase();
