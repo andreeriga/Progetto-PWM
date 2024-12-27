@@ -1,4 +1,4 @@
-const { connectToDatabase } = require('../db');
+const { connectToDatabase } = require('../db/index');
 const { ObjectId } = require('mongodb');
 
 module.exports = {

@@ -1,4 +1,4 @@
-const { connectToDatabase, insertUser, logIn, updateUser, signUp } = require('../db');
+const { connectToDatabase, insertUser, logIn, updateUser, signUp } = require('../db/index');
 const { ObjectId } = require('mongodb');
 
 module.exports = {
