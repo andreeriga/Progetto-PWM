@@ -1,0 +1,15 @@
+label {
+    color: #6c757d;
+}
+
+body {
+    background: rgb(2, 0, 36);
+    background: radial-gradient(circle, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 0.7987570028011204) 54%, rgba(13, 110, 253, 1) 100%);
+    padding-right: 15%;
+    padding-left: 15%;
+}
+
+.cont {
+    background-color: white;
+    margin-top: 15%;
+}
