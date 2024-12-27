@@ -325,8 +325,6 @@ app.post('/trading_cards/:id', async (req, res) => {
 });
 
 app.post('/trade', async (req, res) => {
-    // route dedicata all'inserimento di uno scambio
-    // req -> id_utente e [] di trading cards
     id_utente = req.body.id_utente;
     trading_cards = req.body.trading_cards;
     try {
@@ -438,7 +436,7 @@ app.delete('/trades/:id', async function (req, res) {
     }
 });
 
-app.post('/accept_trade/:id', async (req, res) => {
+app.post('/trade/:id/accept', async (req, res) => {
     // route dedicata all'accettazione di uno scambio
     id_scambio = req.params.id;
     id_utente = req.body.id_utente; //primo utente

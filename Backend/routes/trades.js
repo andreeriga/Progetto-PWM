@@ -1,255 +1,24 @@
-/**
- * @swagger
- * tags:
- *   name: Accesso
- *   description: Operazioni di accesso al sito
- */
+const express = require('express');
+const router = express.Router();
+const tradesController = require('../controllers/tradesController');
 
 /**
  * @swagger
- * tags:
- *   name: Figurine
- *   description: Operazioni sulle figurine
- */
-
-/**
- * @swagger
- * tags:
- *   name: Crediti
- *   description: Aggiornamento dei crediti di un utente
- */
-
-/**
- * @swagger
- * tags:
- *   name: Scambi
- *   description: Aggiornamento degli scambi
- */
-
-/**
- * @swagger
- * tags:
- *   name: Utenti
- *   description: Operazioni sugli utenti
- */
-
-/**
- * @swagger
- * /login:
- *   post:
- *     tags: [Accesso]
- *     summary: Effettua il login di un utente
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Login effettuato con successo
- *       400:
- *         description: Richiesta non valida
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /users/{id}:
- *   delete:
- *     tags: [Utenti]
- *     summary: Elimina un utente per ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID dell'utente da eliminare
- *     responses:
- *       200:
- *         description: Utente eliminato con successo
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /users:
+ * /trades:
  *   get:
- *     tags: [Utenti]
- *     summary: Recupera tutti gli utenti
+ *     tags: [Scambi]
+ *     summary: Recupera tutti gli scambi
  *     responses:
  *       200:
- *         description: Lista di utenti recuperata con successo
+ *         description: Lista di scambi recuperata con successo
  *       500:
  *         description: Errore interno del server
  */
+router.get('/', tradesController.getAllTrades);
 
 /**
  * @swagger
- * /users/{id}:
- *   get:
- *     tags: [Utenti]
- *     summary: Recupera un utente per ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID dell'utente da recuperare
- *     responses:
- *       200:
- *         description: Utente recuperato con successo
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /users:
- *   post:
- *     tags: [Utenti]
- *     summary: Crea un nuovo utente
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *               cognome:
- *                 type: string
- *               password:
- *                 type: string
- *               email:
- *                 type: string
- *     responses:
- *       200:
- *         description: Utente creato con successo
- *       400:
- *         description: Mail già registrata o richiesta non valida
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /credits/{id}:
- *   post:
- *     tags: [Crediti]
- *     summary: Aggiorna i crediti di un utente
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID dell'utente
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               crediti:
- *                 type: integer
- *     responses:
- *       200:
- *         description: Crediti aggiornati con successo
- *       404:
- *         description: Utente non trovato
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /users/{id}:
- *   post:
- *     tags: [Utenti]
- *     summary: Aggiorna un utente per ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID dell'utente
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               crediti:
- *                 type: integer
- *               email:
- *                 type: string
- *               nome:
- *                 type: string
- *               cognome:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Crediti aggiornati con successo
- *       400:
- *         description: Richiesta non valida (es. mail già registrata)
- *       404:
- *         description: Utente non trovato
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /trading_cards/{id}:
- *   post:
- *     tags: [Figurine]
- *     summary: Aggiorna le trading cards di un utente per ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID dell'utente
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               trading_cards:
- *                 type: array
- *                 items:
- *                   type: integer
- *     responses:
- *       200:
- *         description: Trading cards aggiornate con successo
- *       404:
- *         description: Utente non trovato
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /trade:
+ * /trades:
  *   post:
  *     tags: [Scambi]
  *     summary: Inserisce uno scambio
@@ -274,10 +43,11 @@
  *       500:
  *         description: Errore interno del server
  */
+router.post('/', tradesController.createTrade);
 
 /**
  * @swagger
- * /trade/{id}:
+ * /trades/{id}:
  *   post:
  *     tags: [Scambi]
  *     summary: Inserisce una proposta di scambio
@@ -311,77 +81,11 @@
  *       500:
  *         description: Errore interno del server
  */
+router.post('/:id', tradesController.proposeTrade);
 
 /**
  * @swagger
- * /trades/{id}:
- *   delete:
- *     tags: [Scambi]
- *     summary: Elimina uno scambio
- *     description: Elimina uno scambio esistente dal database.
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID dello scambio da eliminare
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Scambio eliminato con successo
- *       404:
- *         description: Scambio non trovato
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /trades:
- *   get:
- *     tags: [Scambi]
- *     summary: Recupera tutti gli scambi
- *     responses:
- *       200:
- *         description: Lista di scambi recuperata con successo
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /credits/{id}:
- *   get:
- *     tags: [Crediti]
- *     summary: Recupera i crediti di un utente per ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID dell'utente
- *     responses:
- *       200:
- *         description: Crediti recuperati con successo
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 crediti:
- *                   type: integer
- *       400:
- *         description: ID utente non valido
- *       404:
- *         description: Utente non trovato
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /trade/{id}/accept:
+ * /trades/{id}/accept:
  *   post:
  *     tags: [Scambi]
  *     summary: Accetta uno scambio
@@ -412,43 +116,31 @@
  *       500:
  *         description: Errore interno del server
  */
+router.post('/:id/accept', tradesController.acceptTrade);
 
 /**
  * @swagger
- * /signup:
- *   post:
- *     tags: [Accesso]
- *     summary: Registra un nuovo utente
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 description: Email dell'utente
- *               password:
- *                 type: string
- *                 description: Password dell'utente
- *               nome:
- *                 type: string
- *                 description: Nome dell'utente
- *               cognome:
- *                 type: string
- *                 description: Cognome dell'utente
- *               preferito:
- *                 type: integer
- *                 description: Eroe preferito
+ * /trades/{id}:
+ *   delete:
+ *     tags: [Scambi]
+ *     summary: Elimina uno scambio
+ *     description: Elimina uno scambio esistente dal database.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID dello scambio da eliminare
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
- *         description: Utente registrato con successo
- *       400:
- *         description: Mail già registrata o richiesta non valida
+ *         description: Scambio eliminato con successo
+ *       404:
+ *         description: Scambio non trovato
  *       500:
  *         description: Errore interno del server
  */
+router.delete('/:id', tradesController.deleteTrade);
 
 /**
  * @swagger
@@ -491,6 +183,7 @@
  *       500:
  *         description: Errore interno del server
  */
+router.get('/available', tradesController.getAvailableTrades);
 
 /**
  * @swagger
@@ -533,6 +226,7 @@
  *       500:
  *         description: Errore interno del server
  */
+router.get('/completed', tradesController.getCompletedTrades);
 
 /**
  * @swagger
@@ -575,10 +269,11 @@
  *       500:
  *         description: Errore interno del server
  */
+router.get('/pending', tradesController.getPendingTrades);
 
 /**
  * @swagger
- * /trades/available/{id}:
+ * /trades/{id}/available:
  *   get:
  *     tags: [Scambi]
  *     summary: Recupera tutti gli scambi disponibili per un utente
@@ -624,10 +319,11 @@
  *       500:
  *         description: Errore interno del server
  */
+router.get('/:id/available', tradesController.getFilteredAvailableTrades);
 
 /**
  * @swagger
- * /trades/completed/{id}:
+ * /trades/{id}/completed:
  *   get:
  *     tags: [Scambi]
  *     summary: Recupera tutti gli scambi completati per un utente
@@ -673,10 +369,11 @@
  *       500:
  *         description: Errore interno del server
  */
+router.get('/:id/completed', tradesController.getFilteredCompletedTrades);
 
 /**
  * @swagger
- * /trades/pending/{id}:
+ * /trades/{id}/pending:
  *   get:
  *     tags: [Scambi]
  *     summary: Recupera tutti gli scambi in sospeso per un utente
@@ -722,74 +419,6 @@
  *       500:
  *         description: Errore interno del server
  */
+router.get('/:id/pending', tradesController.getFilteredPendingTrades);
 
-/**
- * @swagger
- * /trading_cards/{id}:
- *   get:
- *     tags: [Figurine]
- *     summary: Recupera le figurine di un utente per ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID dell'utente
- *     responses:
- *       200:
- *         description: Figurine recuperate con successo
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 figurine:
- *                   type: array
- *                   items:
- *                     type: string
- *       400:
- *         description: ID utente non valido
- *       404:
- *         description: Utente non trovato
- *       500:
- *         description: Errore interno del server
- */
-
-/**
- * @swagger
- * /filtered_trading_cards/{id}:
- *   get:
- *     tags: [Figurine]
- *     summary: Recupera le figurine di un utente con quantità maggiore di 1 per ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID dell'utente
- *     responses:
- *       200:
- *         description: Figurine filtrate recuperate con successo
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 figurine:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       nome:
- *                         type: string
- *                       quantita:
- *                         type: integer
- *       400:
- *         description: ID utente non valido
- *       404:
- *         description: Utente non trovato
- *       500:
- *         description: Errore interno del server
- */
+module.exports = router;
