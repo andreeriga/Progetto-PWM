@@ -3,7 +3,6 @@ const crypto = require("crypto")
 
 var validator = require('validator');
 
-
 require('dotenv').config();
 
 const uri = process.env.MONGO_URI
