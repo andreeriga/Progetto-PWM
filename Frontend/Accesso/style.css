@@ -1,13 +1,11 @@
 body {
     background: rgb(2, 0, 36);
-    background: linear-gradient(to right, red, blue);
+    background: linear-gradient(to left, rgba(160, 0, 0, 0.7), rgba(0, 0, 156, 0.7));
     padding-right: 15%;
     padding-left: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
 }
 
 html {
@@ -17,5 +15,5 @@ html {
 .cont {
     background-color: white;
     margin: 0;
-    padding: 20px; /* Aggiungi un po' di padding per migliorare l'aspetto */
+    padding: 20px; /* Aggiungi un po' di padding per migliorare l'aspetto */;
 }

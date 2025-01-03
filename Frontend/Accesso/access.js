@@ -20,6 +20,13 @@ function displayDangerMessage(dangerElement, message) {
     }
 }
 
+function displayWarningMessage(warningElement, message) {
+    if (warningElement) {
+        warningElement.textContent = message;
+        warningElement.classList.remove("d-none");
+    }
+}
+
 function processLoginResponse(response, danger) {
     if (!danger) {
         return;
@@ -40,4 +47,32 @@ function saveUserToLocalStorage(user) {
     localStorage.setItem("id", user._id);
     localStorage.setItem("preferito_id", user.preferito);
     localStorage.setItem("crediti", user.crediti);
+}
+
+function searchHeroe(name) {
+    if (!name) {
+        searchAndDisplayHeroesOnLoad();
+        return;
+    }
+    if (name.length > 3) {
+        getFromMarvel('/public/characters', query = 'nameStartsWith=' + name + '&limit=4')
+            .then((result) => { displayHeroes(result.data.results) })
+    }
+}
+
+function searchAndDisplayHeroesOnLoad() {
+    getFromMarvel('/public/characters', query = 'limit=4')
+        .then((result) => { displayHeroes(result.data.results) })
+}
+
+function displayHeroes(ar) {
+    const selectHero = document.getElementById('select-hero');
+    selectHero.innerHTML = '';
+    ar.forEach(hero => {
+        const button = document.createElement('button');
+        button.classList.add('list-group-item', 'list-group-item-action');
+        button.innerHTML = hero.name;
+        button.onclick = () => localStorage.setItem('preferito_id', hero.id);
+        selectHero.appendChild(button);
+    });
 }
