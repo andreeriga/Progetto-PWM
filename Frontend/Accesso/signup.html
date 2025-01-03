@@ -95,7 +95,7 @@
         <div class="d-grid gap-2 d-flex justify-content-center justify-content-sm-end">
             <button type="submit" id="buttonId" class="btn btn-outline-primary"
                 onclick="window.location.href = base_address + 'Frontend/Accesso/login.html'">LogIn</button>
-            <button type="submit" id="buttonId" class="btn btn-primary" onclick="performSignUp()">SignUp</button>
+            <a href="#" type="button" id="buttonId" class="btn btn-primary" onclick="performSignUp()">SignUp</a>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -103,8 +103,10 @@
         crossorigin="anonymous"></script>
     <script src="access.js"></script>
     <script src="../../Utils/marvel.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/validator@latest/validator.min.js"></script>
     <script>
         function performSignUp() {
+            resetMessages();
             const danger = document.getElementById("danger");
             const warning = document.getElementById("warning");
             const email = document.getElementById("emailInput").value;
@@ -138,7 +140,7 @@
                 cognome: cognome,
                 email: email,
                 password: password,
-                eroe_preferito: localStorage.getItem('preferito_id')
+                preferito: localStorage.getItem('preferito_id')
             });
 
             fetch('http://localhost:3000/signup', {
@@ -150,11 +152,15 @@
             })
                 .then(response => response.json())
                 .then(response => {
-                    localStorage.setItem('id', response.insertedId);
-                    localStorage.setItem("crediti", 0);
-                    window.location.href = base_address + 'Frontend/AFSE/home_page.html';
+                    if (response.message) {
+                        displayDangerMessage(danger, response.message);
+                    } else {
+                        localStorage.setItem('id', response.insertedId);
+                        localStorage.setItem("crediti", 0);
+                        window.location.href = base_address + 'Frontend/AFSE/home_page.html';
+                    }
                 })
-                .catch(err => console.error(err));
+                .catch(err => displayDangerMessage(danger, err));
         }
     </script>
 </body>

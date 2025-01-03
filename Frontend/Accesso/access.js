@@ -37,7 +37,7 @@ function processLoginResponse(response, danger) {
     } else if (response.user_credentials) {
         saveUserToLocalStorage(response.user_credentials);
         danger.classList.add("d-none");
-        window.location.href = `${base_address}/home_page.html`;
+        window.location.href = `${base_address}/Frontend/AFSE/home_page.html`;
     } else {
         console.error("Risposta inattesa dal server:", response);
     }
@@ -75,4 +75,17 @@ function displayHeroes(ar) {
         button.onclick = () => localStorage.setItem('preferito_id', hero.id);
         selectHero.appendChild(button);
     });
+}
+
+function resetMessages() {
+    const danger = document.getElementById("danger");
+    const warning = document.getElementById("warning");
+
+    if (danger) {
+        danger.classList.add("d-none");
+    }
+
+    if (warning) {
+        warning.classList.add("d-none");
+    }
 }

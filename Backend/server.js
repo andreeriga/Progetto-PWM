@@ -6,12 +6,15 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const usersRoutes = require('./routes/users');
 const tradesRoutes = require('./routes/trades');
 const swaggerOptions = require('./swagger/swagger');
+const cors = require('cors')
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
+
+app.use(cors())
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
