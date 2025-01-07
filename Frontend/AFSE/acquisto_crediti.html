@@ -55,7 +55,7 @@
         document.getElementsByClassName('alert-success')[0].classList.add('d-none')
         document.getElementsByClassName('alert-danger')[0].classList.add('d-none')
         crediti = bottone.parentNode.parentNode.parentNode.dataset.value
-        fetch('http://localhost:3000/users/' + localStorage.getItem('id') + '/credits', {
+        fetch('/users/' + localStorage.getItem('id') + '/credits', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"

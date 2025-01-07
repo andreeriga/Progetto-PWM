@@ -80,7 +80,7 @@
     </div>
 </body>
 <script>
-    fetch('http://localhost:3000/superuser/packs')
+    fetch('/superuser/packs')
         .then(response => response.json())
         .then(data => {
             node = document.getElementsByClassName('riga')[0];
@@ -93,7 +93,7 @@
                 clone.getElementsByClassName('col')[1].innerHTML = nFigurine;
                 clone.getElementsByClassName('btn')[0].classList.remove('d-none');
                 clone.getElementsByClassName('btn')[0].onclick = () => {
-                    fetch('http://localhost:3000/superuser/pack/' + id, {
+                    fetch('/superuser/pack/' + id, {
                         method: 'DELETE'
                     })
                         .then(response => {
@@ -106,7 +106,7 @@
         });
 
     function aggiungiPacchettoSpeciale(crediti, figurine) {
-        fetch('http://localhost:3000/superuser/pack', {
+        fetch('/superuser/pack', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

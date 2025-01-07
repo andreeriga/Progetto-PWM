@@ -55,7 +55,7 @@
         document.getElementById('info_heroe').href = localStorage.getItem('preferito_id') !== null ? 'hero_info.html?hero_id=' + localStorage.getItem('preferito_id') : 'home_page.html';
         
         if (localStorage.getItem('id') !== null) {
-            fetch('http://localhost:3000/users/' + localStorage.getItem('id'))
+            fetch('/users/' + localStorage.getItem('id'))
                 .then(response => response.json())
                 .then(data => {
                     fillFields(data)

@@ -104,7 +104,7 @@
                 fail_transazione.classList.add('d-none')
                 localStorage.setItem('crediti', crediti_utente - crediti)
                 document.getElementById('credit-button').innerHTML = localStorage.getItem('crediti')
-                figurine_estratte = await fetch('http://localhost:3000/marvel/heroes', {
+                figurine_estratte = await fetch('/marvel/heroes', {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -113,7 +113,7 @@
                         numero_di_figurine: numero_figurine
                     })
                 }).then(response => response.json())
-                await fetch('http://localhost:3000/users/' + localStorage.getItem('id') + '/credits', {
+                await fetch('/users/' + localStorage.getItem('id') + '/credits', {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -122,7 +122,7 @@
                         crediti: crediti_utente - crediti
                     })
                 }).then(response => response.json())
-                resp = await fetch('http://localhost:3000/users/'+localStorage.getItem('id')+'/trading_cards', {
+                resp = await fetch('/users/'+localStorage.getItem('id')+'/trading_cards', {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -140,7 +140,7 @@
             }
         }
 
-        fetch('http://localhost:3000/superuser/packs')
+        fetch('/superuser/packs')
             .then(response => response.json())
             .then(data => {
                 node = document.getElementsByClassName('pacchetti-speciali')[0];

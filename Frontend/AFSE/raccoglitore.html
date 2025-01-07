@@ -43,7 +43,7 @@
     <script src="lib.js"></script>
     <script>
         async function vediEroi(filter) {
-            eroi = await fetch('http://localhost:3000/users/' + localStorage.getItem('id') + (filter ? '/filtered_trading_cards' : '/trading_cards'))
+            eroi = await fetch('/users/' + localStorage.getItem('id') + (filter ? '/filtered_trading_cards' : '/trading_cards'))
                 .then(response => response.json())
             var card = document.getElementById('eroi')
             document.getElementById('container-eroi').innerHTML = ''
