@@ -165,6 +165,38 @@ router.get('/:id/credits', usersController.getUserCredits);
 
 /**
  * @swagger
+ * /users/{id}/password:
+ *   post:
+ *     tags: [Utenti]
+ *     summary: Aggiorna la password di un utente
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID dell'utente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password aggiornata con successo
+ *       404:
+ *         description: Utente non trovato
+ *       500:
+ *         description: Errore interno del server
+ */
+router.post('/:id/password', usersController.updateUserPassword);
+
+/**
+ * @swagger
  * /users/{id}/credits:
  *   post:
  *     tags: [Utenti]

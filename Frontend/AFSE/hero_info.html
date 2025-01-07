@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Informazioni</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="navbar.js"></script>
+    <script src="login_control.js"></script>
+    <link type="image/x-icon" rel="shortcut icon" href="../../Utils/images/scudo.svg">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+                <div class="card mb-4">
+                    <div class="card-header p-2">
+                        <button
+                            onclick="document.getElementById('informazioni').classList.remove('d-none'); this.classList.add('disabled')"
+                            class="btn btn-primary ms-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-info-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                <path
+                                    d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="row g-0">
+                        <div class="col-12 col-md-4">
+                            <img src="" class="img-fluid rounded-bottom card-element" alt="...">
+                        </div>
+                        <div class="col col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title card-element">Card title</h5>
+                                <p class="card-text card-element">This is a wider card with supporting text below as a
+                                    natural lead-in to
+                                    additional content. This content is a little bit longer.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container d-none" id='informazioni'>
+        <div class="row mb-2">
+            <div class="col">
+                <div class="bg-white bg-opacity-25 border border-white rounded-2 text-center text-white">
+                    FUMETTI
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-5">
+            <div class="col pb-4 d-flex justify-content-center" id="card-fumetti">
+                <div class="card h-100" style="width: 12rem;">
+                    <img src="" class="card-img-top card-element" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title card-element">Card title</h5>
+                      <p class="card-text card-element">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <div class="bg-white bg-opacity-25 border border-white rounded-2 text-center text-white">
+                    STORIE
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-5">
+            <div class="col pb-4 d-flex justify-content-center" id="card-storie">
+                <div class="card h-100" style="width: 12rem;">
+                    <img src="" class="card-img-top card-element" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title card-element">Card title</h5>
+                      <p class="card-text card-element">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <div class="bg-white bg-opacity-25 border border-white rounded-2 text-center text-white">
+                    SERIE
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-5">
+            <div class="col pb-4 d-flex justify-content-center" id="card-serie">
+                <div class="card h-100" style="width: 12rem;">
+                    <img src="" class="card-img-top card-element" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title card-element">Card title</h5>
+                      <p class="card-text card-element">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <div class="bg-white bg-opacity-25 border border-white rounded-2 text-center text-white">
+                    EVENTI
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-5">
+            <div class="col pb-4 d-flex justify-content-center" id="card-eventi">
+                <div class="card h-100" style="width: 12rem;">
+                    <img src="" class="card-img-top card-element" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title card-element">Card title</h5>
+                      <p class="card-text card-element">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+<!-- <script src="lib.js"></script> -->
+<script src="informazioni_eroe.js"></script>
+<script src="../../Utils/marvel.js"></script>
+</script>
+<script>
+    infoEroe();
+
+    function infoEroe() {
+        let url = new URL(document.URL);
+        let params = new URLSearchParams(url.search);
+        eroe = params.get('hero_id');
+        getFromMarvel('public/characters/' + eroe)
+            .then(result => {
+                caricaEroe(result.data.results[0]); caricaFumetti(result.data.results[0].comics);
+                caricaSerie(result.data.results[0].series); caricaStorie(result.data.results[0].stories);
+                caricaEventi(result.data.results[0].events);
+            })
+    }
+</script>
+
+</html>

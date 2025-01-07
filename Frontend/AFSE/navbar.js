@@ -40,11 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
-                <button type="button" class="btn btn-outline-warning" disabled>
+                <button type="button" class="btn btn-outline-warning me-2" id="credit-button" disabled>
                     <script>
                         document.write(localStorage.getItem('crediti'))
                     </script>
                 </button>
+                <button class="btn btn-outline-primary d-none me-2" onclick="window.location.href = base_address + 'Frontend/Accesso/login.html'" id="login-button">Login</button>
+                <button class="btn btn-outline-danger" onclick="window.location.href = base_address + 'Frontend/Accesso/login.html'" id="logout-button">Logout</button>
             </div>
         </div>
     </nav>

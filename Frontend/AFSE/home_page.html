@@ -14,33 +14,60 @@
 </head>
 
 <body>
-    <div class="card-container">
-        <div class="container">
-            <div class="card m-5">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="" class="img-fluid rounded-start" id="card-preferito">
+
+    <div class="container">
+        <div class="card m-5">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="" class="img-fluid rounded-top" id="card-preferito">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" id='benvenuto'>Benvenuto</h5>
+                        <p class="card-text">Benvenuto nel portale che ti permetterà di collezionare le
+                            figurine dei tuoi supereroi preferiti, di scambiare con altri utenti e di acquistare
+                            pacchetti
+                        </p>
                     </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" id='benvenuto'>Benvenuto</h5>
-                            <p class="card-text">Benvenuto nel portale che ti permetterà di collezionare le
-                                figurine dei tuoi supereroi preferiti, di scambiare con altri utenti e di acquistare
-                                pacchetti
-                            </p>
-                            <p class="card-text"><small class="text-body-secondary">Puoi iniziare a vedere delle
-                                    informazioni riguardo il tuo supereroe preferito</small></p>
-                        </div>
+                </div>
+                <div class="card-footer" style="background-color: #fff;">
+                    <div class="text-center text-md-end">
+                        <a href="" class="btn btn-primary" id="info_heroe">Info</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="lib.js"></script>
+    <script src="../../Utils/marvel.js"></script>
+    <script>
+        if (localStorage.getItem('id') === null) {
+            document.getElementsByClassName('card-footer')[0].classList.add('d-none');
+        } else {
+            document.getElementsByClassName('card-footer')[0].classList.remove('d-none');
+        }
+
+        document.getElementById('info_heroe').href = localStorage.getItem('preferito_id') !== null ? 'hero_info.html?hero_id=' + localStorage.getItem('preferito_id') : 'home_page.html';
+        
+        fetch('http://localhost:3000/users/' + localStorage.getItem('id'))
+            .then(response => response.json())
+            .then(data => {
+                fillFields(data)
+            });
+
+        function fillFields(data) {
+            document.getElementById('benvenuto').innerHTML = 'Benvenuto ' + data.nome + ' ' + data.cognome;
+            getFromMarvel('public/characters/' + data.preferito)
+                .then(response =>
+                    document.getElementById('card-preferito').src = response.data.results[0].thumbnail.path + '.' + response.data.results[0].thumbnail.extension
+                )
+        }
+    </script>
 </body>
 
 </html>

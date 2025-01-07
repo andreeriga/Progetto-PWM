@@ -8,11 +8,11 @@ html {
     height: 100%;
 }
 
-.card-container {
+/* .card-container {
     height: 60%;
     display: flex;
     align-items: center;
-}
+} */
 
 .cont {
     background-color: white;

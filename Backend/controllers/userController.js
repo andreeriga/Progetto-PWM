@@ -1,5 +1,6 @@
 const { connectToDatabase, insertUser, logIn, updateUser, signUp } = require('../db/index');
 const { ObjectId } = require('mongodb');
+const crypto = require('crypto');
 
 module.exports = {
     getAllUsers: async (req, res) => {
@@ -276,6 +277,34 @@ module.exports = {
             res.status(500).send({ error: "Errore interno del server" });
         } finally {
             // Chiudi la connessione al database
+            if (client) {
+                await client.close();
+            }
+        }
+    },
+    updateUserPassword : async (req, res) => {
+        let client;
+        try {
+            const connection = await connectToDatabase();
+            const db = connection.db;
+            client = connection.client;
+
+            const user_id = req.params.id;
+
+            const myquery = { _id: new ObjectId(user_id) };
+            const update = { $set: { password: crypto.createHash("sha256").update(req.body.password).digest("hex") } };
+
+            const result = await db.collection("Users").updateOne(myquery, update);
+
+            if (result.matchedCount === 0) {
+                return res.status(404).send({ error: "Utente non trovato" });
+            }
+
+            res.status(200).send({ message: "Password aggiornata con successo" });
+        } catch (err) {
+            console.error("Errore nella route '/password/:id':", err);
+            res.status(500).send({ error: "Errore interno del server" });
+        } finally {
             if (client) {
                 await client.close();
             }
