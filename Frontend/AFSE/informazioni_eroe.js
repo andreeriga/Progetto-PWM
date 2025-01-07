@@ -160,7 +160,7 @@ function vediSupereroi(ar) {
         titolo.innerHTML = eroe.name
         immagine.src = eroe.thumbnail.path + '.' + eroe.thumbnail.extension
         descrizione.innerHTML = eroe.description == '' ? 'No description available.' : eroe.description
-        bottone.href = base_address + 'Frontend/AFSE/hero_info.html?hero_id='+eroe.id
+        bottone.href = base_address + '/hero_info.html?hero_id='+eroe.id
         clone.classList.remove('d-none')
         eroi.after(clone)
     }

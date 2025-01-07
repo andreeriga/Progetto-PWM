@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const navbar = `
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand mx-2" href="home_page.html">
-                <img src="../../Utils/images/scudo.svg" height="30" width="30">
+            <a class="navbar-brand mx-2" href="index.html">
+                <img src="/Utils/images/scudo.svg" height="30" width="30">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         document.write(localStorage.getItem('crediti'))
                     </script>
                 </button>
-                <button class="btn btn-outline-primary d-none me-2" onclick="window.location.href = base_address + 'Frontend/Accesso/login.html'" id="login-button">Login</button>
-                <button class="btn btn-outline-danger" onclick="window.location.href = base_address + 'Frontend/Accesso/login.html'" id="logout-button">Logout</button>
+                <button class="btn btn-outline-primary d-none me-2" onclick="window.location.href = '/login.html'" id="login-button">Login</button>
+                <button class="btn btn-outline-danger" onclick="window.location.href = '/login.html'" id="logout-button">Logout</button>
             </div>
         </div>
     </nav>

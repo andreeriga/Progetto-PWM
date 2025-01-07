@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="navbar.js"></script>
     <script src="login_control.js"></script>
-    <link type="image/x-icon" rel="shortcut icon" href="../../Utils/images/scudo.svg">
+    <link type="image/x-icon" rel="shortcut icon" href="/Utils/images/scudo.svg">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="lib.js"></script>
-    <script src="../../Utils/marvel.js"></script>
+    <script src="marvel.js"></script>
     <script>
         if (localStorage.getItem('id') === null) {
             document.getElementsByClassName('card-footer')[0].classList.add('d-none');
@@ -54,11 +54,13 @@
 
         document.getElementById('info_heroe').href = localStorage.getItem('preferito_id') !== null ? 'hero_info.html?hero_id=' + localStorage.getItem('preferito_id') : 'home_page.html';
         
-        fetch('http://localhost:3000/users/' + localStorage.getItem('id'))
-            .then(response => response.json())
-            .then(data => {
-                fillFields(data)
-            });
+        if (localStorage.getItem('id') !== null) {
+            fetch('http://localhost:3000/users/' + localStorage.getItem('id'))
+                .then(response => response.json())
+                .then(data => {
+                    fillFields(data)
+                });
+        }
 
         function fillFields(data) {
             document.getElementById('benvenuto').innerHTML = 'Benvenuto ' + data.nome + ' ' + data.cognome;

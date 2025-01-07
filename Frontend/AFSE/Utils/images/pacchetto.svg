@@ -1,0 +1,12 @@
+<svg width="300" height="400" xmlns="http://www.w3.org/2000/svg">
+    <!-- Primo rettangolo (verticale) -->
+    <rect x="50" y="10" width="75" height="150" fill="none" stroke='black' stroke-width='2' />
+
+    <!-- Secondo rettangolo (ruotato di 45°) -->
+    <g transform="rotate(45 100 200)">
+        <rect x="10" y="30" width="75" height="150" fill='white' stroke='black' stroke-width='2' />
+    </g>
+
+    <!-- Terzo rettangolo (orizzontale) -->
+    <rect x="50" y="110" width="150" height="75" stroke='black' stroke-width='2' fill='white' />
+</svg>

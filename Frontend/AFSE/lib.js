@@ -28,7 +28,3 @@ function displayWarningMessage(warningElement, message) {
         warningElement.classList.remove("d-none");
     }
 }
-
-function getUserInfos() {
-    
-}

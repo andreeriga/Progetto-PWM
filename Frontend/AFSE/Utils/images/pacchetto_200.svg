@@ -1,0 +1,22 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="rareGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#8e44ad" /> <!-- Viola intenso -->
+            <stop offset="100%" stop-color="#f1c40f" /> <!-- Oro brillante -->
+        </linearGradient>
+    </defs>
+
+    <!-- Primo rettangolo (verticale) -->
+    <rect x="50" y="10" width="75" height="150" fill="url(#rareGradient)" stroke='black'
+        stroke-width='2' />
+
+    <!-- Secondo rettangolo (ruotato di 45°) -->
+    <g transform="rotate(45 100 200)">
+        <rect x="10" y="30" width="75" height="150" fill='url(#rareGradient)' stroke='black'
+            stroke-width='2' />
+    </g>
+
+    <!-- Terzo rettangolo (orizzontale) -->
+    <rect x="50" y="110" width="150" height="75" stroke='black' stroke-width='2'
+        fill='url(#rareGradient)' />
+</svg>

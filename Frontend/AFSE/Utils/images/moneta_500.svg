@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+    <!-- Background Circle -->
+    <circle cx="250" cy="250" r="240" fill="url(#gradient-legendary)" stroke="#000" stroke-width="10" />
+
+    <!-- Dashed Circle 1 -->
+    <circle cx="250" cy="250" r="220" fill="none" stroke="#000" stroke-width="2"/>
+
+    <!-- Dashed Circle 2 -->
+    <circle cx="250" cy="250" r="170" fill="none" stroke="#000" stroke-width="2"
+        stroke-dasharray="5,5" />
+
+    <!-- Main Gradient Circle -->
+    <linearGradient id="gradient-legendary" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#ffd700" stop-opacity="0.8" /> <!-- Oro -->
+        <stop offset="100%" stop-color="#ffa500" stop-opacity="0.8" /> <!-- Arancione -->
+    </linearGradient>
+    <circle cx="250" cy="250" r="150" fill="none" stroke="#000" stroke-width="5"
+        fill-rule="evenodd" />
+
+    <!-- Star Shape -->
+    <polygon
+        points="250,120 280,210 370,210 300,260 320,350 250,300 180,350 200,260 130,210 220,210"
+        fill="none" stroke="#000" stroke-width="5" />
+</svg>

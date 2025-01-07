@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin page</title>
+    <link rel="shortcut icon" href="/Utils/images/scudo.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        background: rgb(0, 0, 0);
+        background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(87, 86, 86, 1) 22%, rgba(0, 0, 0, 1) 100%);
+    }
+</style>
+
+<body>
+    <div class="container d-flex justify-content-center align-items-center my-0">
+        <div class="card border-success mt-5" style="background-color: black;">
+            <div class="card-header border-success">
+                <div class="text-center my-1">
+                    <h6 class="m-0" style="color: rgb(25, 135, 84)">PACCHETTI SPECIALI</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row row-cols-1">
+                    <div class="col border-success riga mb-1">
+                        <div class="row" style="color: rgb(25, 135, 84);">
+                            <div class="col">Crediti</div>
+                            <div class="col">Numero di figurine</div>
+                            <div class="col-3 me-1 text-end">
+                                <button type="button" class="btn btn-danger btn-sm d-none">
+                                    Elimina
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer border-success text-center">
+                <button type="button" class="btn btn-success"
+                    onclick="document.getElementById('addPack').classList.remove('d-none')">Aggiungi un
+                    pacchetto</button>
+                <button type="button" class="btn btn-danger ms-1"
+                    onclick="window.location.href = '/login.html'">Logout</button>
+            </div>
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center align-items-center d-none" id="addPack">
+        <div class="card border-success mt-5" style="background-color: black;">
+            <div class="card-header border-success">
+                <div class="text-center my-1">
+                    <h6 class="m-0" style="color: rgb(25, 135, 84)">AGGIUNGI PACCHETTO SPECIALE</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="crediti" class="form-label" style="color: rgb(25, 135, 84);">Crediti</label>
+                    <input type="number" class="form-control border-success bg-black bg-gradient text-white"
+                        id="crediti" value="100" max="1000" step="25">
+                </div>
+                <div class="mb-3">
+                    <label for="figurine" class="form-label" style="color: rgb(25, 135, 84);">Figurine</label>
+                    <input type="number" class="form-control border-success bg-black bg-gradient text-white"
+                        id="figurine" value="10" max="35" step="1">
+                </div>
+            </div>
+            <div class="card-footer border-success text-center">
+                <button type="button" class="btn btn-success"
+                    onclick="aggiungiPacchettoSpeciale(document.getElementById('crediti'), document.getElementById('figurine'))">Aggiungi</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    fetch('http://localhost:3000/superuser/packs')
+        .then(response => response.json())
+        .then(data => {
+            node = document.getElementsByClassName('riga')[0];
+            data.forEach(element => {
+                id = element._id;
+                crediti = element.crediti;
+                nFigurine = element.numero_figurine;
+                clone = node.cloneNode(true);
+                clone.getElementsByClassName('col')[0].innerHTML = crediti;
+                clone.getElementsByClassName('col')[1].innerHTML = nFigurine;
+                clone.getElementsByClassName('btn')[0].classList.remove('d-none');
+                clone.getElementsByClassName('btn')[0].onclick = () => {
+                    fetch('http://localhost:3000/superuser/pack/' + id, {
+                        method: 'DELETE'
+                    })
+                        .then(response => {
+                            console.log(response)
+                            location.reload();
+                        });
+                }
+                node.after(clone);
+            });
+        });
+
+    function aggiungiPacchettoSpeciale(crediti, figurine) {
+        fetch('http://localhost:3000/superuser/pack', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                crediti: crediti.value,
+                numero_figurine: figurine.value
+            })
+        })
+            .then(response => {
+                console.log(response);
+                location.reload();
+            });
+    }
+</script>
+
+</html>

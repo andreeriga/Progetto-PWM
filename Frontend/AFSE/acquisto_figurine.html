@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modifica</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="navbar.js"></script>
+    <script src="login_control.js"></script>
+    <link type="image/x-icon" rel="shortcut icon" href="/Utils/images/scudo.svg">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="alert alert-success mb-0 mt-4 d-none" role="alert"></div>
+        </div>
+        <div class="row">
+            <div class="alert alert-danger mb-0 mt-4 d-none" role="alert"></div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 mt-4">
+            <div class="col pacchetti d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <img src="../../Utils/images/pacchetto_100.svg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Pacchetto Standard: <br>100 crediti</h5>
+                        <p class="card-text">Pacchetto che contiene 2 carte</p>
+                        <div class="d-flex text-center"></div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-dark" onclick="acquistaPacchetto(this)">Acquista</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col pacchetti d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <img src="../../Utils/images/pacchetto_200.svg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Pacchetto Premium: <br>200 crediti</h5>
+                        <p class="card-text">Pacchetto che contiene 5 carte</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-dark" onclick="acquistaPacchetto(this)">Acquista</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col pacchetti d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <img src="../../Utils/images/pacchetto_300.svg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Pacchetto Ultra: <br>300 crediti</h5>
+                        <p class="card-text">Pacchetto che contiene 8 carte</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-dark" onclick="acquistaPacchetto(this)">Acquista</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center my-4 d-none pacchetti-speciali">
+                <div class="card" style="width: 18rem;">
+                    <img src="../../Utils/images/pacchetto_esclusivo.svg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text"></p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-dark" onclick="acquistaPacchetto(this)">Acquista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="lib.js"></script>
+    <script src="marvel.js">
+    </script>
+    <script>
+        inizializzaCosto();
+
+        function inizializzaCosto() {
+            pacchetti = document.getElementsByClassName('pacchetti')
+            costo = [100, 200, 300]
+            for (i = 0; i < pacchetti.length; i++) {
+                pacchetto = pacchetti[i]
+                pacchetti[i].getElementsByClassName('card-text')[0].innerHTML = "Pacchetto che contiene " + (Math.floor(costo[i] / 100 * 3.5)) + " carte"
+                pacchetto.dataset.value = costo[i]
+            }
+        }
+
+        async function acquistaPacchetto(bottone) {
+            crediti = bottone.parentNode.parentNode.parentNode.dataset.value
+            numero_figurine = Math.floor(crediti / 100 * 3.5)
+            successo_transazione = document.getElementsByClassName('alert-success')[0]
+            fail_transazione = document.getElementsByClassName('alert-danger')[0]
+            crediti_utente = parseInt(localStorage.getItem('crediti'))
+            if (crediti <= crediti_utente) {
+                successo_transazione.innerHTML = 'Hai acquistato con successo il pacchetto da ' + crediti + ' crediti'
+                successo_transazione.classList.remove('d-none')
+                fail_transazione.classList.add('d-none')
+                localStorage.setItem('crediti', crediti_utente - crediti)
+                document.getElementById('credit-button').innerHTML = localStorage.getItem('crediti')
+                figurine_estratte = await fetch('http://localhost:3000/marvel/heroes', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        numero_di_figurine: numero_figurine
+                    })
+                }).then(response => response.json())
+                await fetch('http://localhost:3000/users/' + localStorage.getItem('id') + '/credits', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        crediti: crediti_utente - crediti
+                    })
+                }).then(response => response.json())
+                resp = await fetch('http://localhost:3000/users/'+localStorage.getItem('id')+'/trading_cards', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        trading_cards: figurine_estratte
+                    })
+                }).then(response => response.json())
+                console.log(resp)
+                console.log(figurine_estratte)
+            } else {
+                fail_transazione.innerHTML = 'Non hai abbastanza crediti'
+                fail_transazione.classList.remove('d-none')
+                successo_transazione.classList.add('d-none')
+            }
+        }
+
+        fetch('http://localhost:3000/superuser/packs')
+            .then(response => response.json())
+            .then(data => {
+                node = document.getElementsByClassName('pacchetti-speciali')[0];
+                data.forEach(element => {
+                    id = element._id;
+                    crediti = element.crediti;
+                    nFigurine = element.numero_figurine;
+                    clone = node.cloneNode(true);
+                    clone.getElementsByClassName('card-title')[0].innerHTML = 'Pacchetto Speciale: <br>' + crediti + ' crediti';
+                    clone.getElementsByClassName('card-text')[0].innerHTML = 'Pacchetto che contiene ' + nFigurine + ' carte';
+                    clone.dataset.value = crediti;
+                    clone.classList.remove('d-none');
+                    clone.getElementsByClassName('btn')[0].onclick = () => {
+                        acquistaPacchetto(clone.getElementsByClassName('btn')[0])
+                    }
+                    node.after(clone);
+                });
+            });
+    </script>
+</body>
+
+</html>

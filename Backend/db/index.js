@@ -58,6 +58,7 @@ async function insertUser(db, user) {
         preferito: user.preferito || null,
         figurine: [],
         crediti: 0,
+        admin : false
     });
 
     return finalUser;
@@ -146,7 +147,8 @@ async function signUp(user, res) {
             password: hashedPassword,
             preferito: user.preferito,
             crediti: 0, // inizializza i crediti a 0
-            trading_cards: [] // inizializza le trading cards come array vuoto
+            figurine: [], // inizializza le trading cards come array vuoto
+            admin : false
         };
 
         const result = await db.collection("Users").insertOne(newUser);
