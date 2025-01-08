@@ -251,7 +251,7 @@ module.exports = {
 
             // Ciclo per ogni trading card
             const updatePromises = tradingCards.map(async (card) => {
-                const myquery = { _id: new ObjectId(user_id), 'figurine.id': String(card) };
+                const myquery = { _id: new ObjectId(user_id), 'figurine.id': String(card.id) };
                 const update = { $inc: { "figurine.$.quantità": 1 } };
 
                 // Aggiorna la figurina se esiste
@@ -261,7 +261,7 @@ module.exports = {
                     // Aggiungi la figurina se non esiste
                     await db.collection("Users").updateOne(
                         { _id: new ObjectId(user_id) }, // Cerca utente
-                        { $push: { figurine: { id: String(card), quantità: 1 } } } // Aggiungi la nuova figurina
+                        { $push: { figurine: { id: String(card.id), nome : String(card.nome), thumbnail : String(card.thumbnail) , quantità: 1 } } } // Aggiungi la nuova figurina
                     );
                 }
             });

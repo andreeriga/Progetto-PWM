@@ -18,6 +18,56 @@ router.get('/', tradesController.getAllTrades);
 
 /**
  * @swagger
+ * /trades/byId/{id}:
+ *   get:
+ *     tags: [Scambi]
+ *     summary: Recupera uno scambio per ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID dello scambio
+ *     responses:
+ *       200:
+ *         description: Scambio recuperato con successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 user_1:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     trading_cards:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                 user_2:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     trading_cards:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                 status:
+ *                   type: string
+ *       404:
+ *         description: Scambio non trovato
+ *       500:
+ *         description: Errore interno del server
+ */
+router.get('/byId/:id', tradesController.getTradesById)
+
+/**
+ * @swagger
  * /trades:
  *   post:
  *     tags: [Scambi]

@@ -22,8 +22,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     <li class="nav-item">
                         <a class="nav-link" href="figurine.html">Figurine</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link logged" href="scambi.html">Scambi</a>
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle logged" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Scambi
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="aggiungi_scambio.html">Nuovo</a></li>
+                            <li><a class="dropdown-item" href="scambi_disponibili.html">Disponibili</a></li>
+                            <li><a class="dropdown-item" href="scambi_sospesi.html">In sospeso</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item dropdown ">
                         <a class="nav-link dropdown-toggle logged" href="#" role="button" data-bs-toggle="dropdown"

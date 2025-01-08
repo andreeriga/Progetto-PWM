@@ -25,8 +25,11 @@
                 <div class="d-flex">
                     <input class="form-control me-2" id="ricerca_eroe" type="search" placeholder="Search"
                         aria-label="Search" onkeyup="if (this.value.length > 3) {cercaEroe(this.value)}">
-                    <button class="btn btn-outline-success" style="background-color: white;"
-                        onclick="cercaEroe(document.getElementById('ricerca_eroe').value)">Search</button>
+                    <div class="rounded" style="background-color: white;">
+                        <button class="btn btn-outline-success"
+                            onclick="cercaEroe(document.getElementById('ricerca_eroe').value)">Search</button>
+
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>
+        Scambi in sospeso
+    </title>
+    <link rel="stylesheet" href="style.css">
+    <link type="image/x-icon" rel="shortcut icon" href="/Utils/images/scudo.svg">
+    <script src="navbar.js"></script>
+    <script src="login_control.js"></script>
+</head>
+
+<body>
+    <div class="container cont py-3 px-3 my-4 rounded shadow">
+        <div class="row row-cols-1 mb-3">
+            <div class="col">
+                <div class="row fw-bold">
+                    <div class="col id_s">Cosa hai offerto</div>
+                    <div class="col utente">Cosa ti propongono</div>
+                    <div class="col text-center bottone">Accetta</div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-1 mb-3">
+            <div class="col d-none">
+                <div class="row mb-2">
+                    <div class="col proposta"></div>
+                    <div class="col offerta"></div>
+                    <div class="col text-center bottone">
+                        <button type="button" class="btn btn-success accetta-offerta">Accetta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!-- <script src="access.js"></script> -->
+    <script src="marvel.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/validator@latest/validator.min.js"></script>
+    <script>
+        fetch('/trades/' + localStorage.getItem('id') + '/pending')
+            .then(res => res.json())
+            .then(res => {
+                colonne = document.getElementsByClassName('col')[4]
+                res.forEach(element => {
+                    clone = colonne.cloneNode(true)
+                    // clone.getElementsByClassName('id_s')[0].innerHTML = element._id
+                    // clone.getElementsByClassName('utente')[0].innerHTML = element.user_1.id
+                    id_scambio = element._id
+                    var string
+                    element.user_1.trading_cards.forEach(el => {
+                        string += el.nome + " "
+                    })
+                    clone.getElementsByClassName('proposta')[0].innerHTML = string
+                    string = ''
+                    element.user_2.trading_cards.forEach(el => {
+                        string += el.nome + " "
+                    })
+                    clone.getElementsByClassName('offerta')[0].innerHTML = string
+
+                    clone.getElementsByClassName('accetta-offerta')[0].onclick = () => {
+                        fetch('trades/' + id_scambio + '/accept', {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ id_utente: element.user_1.id })
+                        })
+                            .then(res => res.json())
+                            .then(res => console.log(res))
+                    }
+                    clone.classList.remove('d-none')
+                    colonne.after(clone)
+                });
+            })
+    </script>
+</body>
+
+</html>

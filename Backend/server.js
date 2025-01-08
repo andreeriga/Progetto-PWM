@@ -119,7 +119,11 @@ function generateTradingCards() {
                 return getFromMarvel('/public/characters', `limit=100&offset=${offset}`)
                     .then(response => {
                         response.data.results.forEach(eroe => {
-                            eroi.push(eroe.id);
+                            eroi.push({
+                                id : eroe.id,
+                                nome : eroe.name,
+                                thumbnail : eroe.thumbnail.path + "." + eroe.thumbnail.extension
+                            });
                         });
                     });
             };
@@ -153,6 +157,8 @@ function generateTradingCards() {
 
 setInterval(generateTradingCards, 43200000);
 
+// generateTradingCards()
+
 /**
  * @swagger
  * tags:
@@ -163,7 +169,7 @@ setInterval(generateTradingCards, 43200000);
 /**
  * @swagger
  * /marvel/heroes:
- *   get:
+ *   post:
  *     tags: [Marvel]
  *     summary: Restituisce un numero di eroi casuali
  *     requestBody:
