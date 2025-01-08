@@ -3,7 +3,8 @@ function caricaEroe(infos) {
     immagine = el[0]
     nome = el[1]
     descrizione = el[2]
-    immagine.src = infos.thumbnail.path + '.' + infos.thumbnail.extension
+    src = infos.thumbnail.path + '.' + infos.thumbnail.extension
+    immagine.src = src.replace(/^http:\/\//, 'https://');
     nome.innerHTML = infos.name
     descrizione.innerHTML = infos.description == '' ? 'No description available' : infos.description
 }
@@ -27,7 +28,7 @@ function caricaFumetti(infos) {
 }
 
 function visualizzaFumetto(ar) {
-    immagine = ar.thumbnail != null ? ar.thumbnail.path + '.' + ar.thumbnail.extension : 'image_not_available.jpg'
+    immagine = ar.thumbnail != null ? (ar.thumbnail.path + '.' + ar.thumbnail.extension).replace(/^http:\/\//, 'https://') : 'image_not_available.jpg'
     titolo = ar.title
     if (ar.description == null) {
         ar.description = ''
@@ -64,7 +65,7 @@ function caricaSerie(infos) {
 }
 
 function visualizzaSerie(ar) {
-    immagine = ar.thumbnail != null ? ar.thumbnail.path + '.' + ar.thumbnail.extension : 'image_not_available.jpg'
+    immagine = ar.thumbnail != null ? (ar.thumbnail.path + '.' + ar.thumbnail.extension).replace(/^http:\/\//, 'https://') : 'image_not_available.jpg'
     titolo = ar.title
     descrizione = ar.description == null ? '' : ar.description
     card = document.getElementById('card-serie')
@@ -98,7 +99,7 @@ function caricaStorie(infos) {
 }
 
 function visualizzaStorie(ar) {
-    immagine = ar.thumbnail != null ? ar.thumbnail.path + '.' + ar.thumbnail.extension : 'image_not_available.jpg'
+    immagine = ar.thumbnail != null ? (ar.thumbnail.path + '.' + ar.thumbnail.extension).replace(/^http:\/\//, 'https://') : 'image_not_available.jpg'
     titolo = ar.title
     descrizione = ar.description == null ? '' : ar.description
     card = document.getElementById('card-storie')
@@ -131,7 +132,7 @@ function caricaEventi(infos) {
 }
 
 function visualizzaEventi(ar) {
-    immagine = ar.thumbnail != null ? ar.thumbnail.path + '.' + ar.thumbnail.extension : 'image_not_available.jpg'
+    immagine = ar.thumbnail != null ? (ar.thumbnail.path + '.' + ar.thumbnail.extension).replace(/^http:\/\//, 'https://') : 'image_not_available.jpg'
     titolo = ar.title
     descrizione = ar.description == null ? '' : ar.description
     card = document.getElementById('card-eventi')
@@ -158,7 +159,8 @@ function vediSupereroi(ar) {
         descrizione = elemento_card[2]
         bottone = elemento_card[3]
         titolo.innerHTML = eroe.name
-        immagine.src = eroe.thumbnail.path + '.' + eroe.thumbnail.extension
+        src = eroe.thumbnail.path + '.' + eroe.thumbnail.extension
+        immagine.src = src.replace(/^http:\/\//, 'https://');
         descrizione.innerHTML = eroe.description == '' ? 'No description available.' : eroe.description
         bottone.href = '/hero_info.html?hero_id='+eroe.id
         clone.classList.remove('d-none')
