@@ -9,7 +9,7 @@ function getFromMarvel(url, query=""){
   var timestamp = Date.now();
   var parameters = `ts=${timestamp}&apikey=${publicApiKey}&hash=${MD5(timestamp+privateApiKey+publicApiKey)}&`
 
-  return fetch(`http://gateway.marvel.com/v1/${url}?${parameters}${query}`)
+  return fetch(`https://gateway.marvel.com/v1/${url}?${parameters}${query}`)
   .then(response => response.json())
   .catch(error => console.log('error', error));
 }
