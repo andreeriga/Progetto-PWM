@@ -157,7 +157,8 @@
                     if (response.message !== 'Utente registrato con successo') {
                         displayDangerMessage(danger, response.message);
                     } else {
-                        localStorage.setItem('id', response.insertedId);
+                        console.log(response)
+                        localStorage.setItem('id', response.userId);
                         localStorage.setItem("crediti", 0);
                         window.location.href = '/index.html';
                     }
