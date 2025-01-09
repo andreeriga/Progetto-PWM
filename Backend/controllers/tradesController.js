@@ -39,18 +39,16 @@ module.exports = {
                 return res.status(404).send({ error: "Utente non trovato" });
             }
 
-            // diminuzione delle trading cards
-            const updateOperations = trading_cards.map(card => ({
-                updateOne: {
-                    filter: { _id: new ObjectId(id_utente), "figurine.id": card.id },
-                    update: { $inc: { "figurine.$.quantità": -1 } }
-                }
-            }));
+            const updatePromises = trading_cards.map(async (card) => {
+                const myquery = { _id: new ObjectId(id_utente), 'figurine.id': String(card.id) };
+                const update = { $inc: { "figurine.$.quantità": -1 } };
 
-            const updateResult = await db.collection("Users").bulkWrite(updateOperations);
-            if (updateResult.modifiedCount !== trading_cards.length) {
-                return res.status(400).send({ error: "Errore nell'aggiornamento delle trading cards" });
-            }
+                // Aggiorna la figurina se esiste
+                await db.collection("Users").updateOne(myquery, update);
+            });
+
+            // Attendi il completamento di tutte le operazioni
+            await Promise.all(updatePromises);
 
             // inserimento dello scambio
             const result = await db.collection("Trades").insertOne({
@@ -94,6 +92,17 @@ module.exports = {
                 return res.status(404).send({ error: "Scambio non trovato" });
             }
 
+            const updatePromises = trading_cards.map(async (card) => {
+                const myquery = { _id: new ObjectId(id_utente), 'figurine.id': String(card.id) };
+                const update = { $inc: { "figurine.$.quantità": -1 } };
+
+                // Aggiorna la figurina se esiste
+                await db.collection("Users").updateOne(myquery, update);
+            });
+
+            // Attendi il completamento di tutte le operazioni
+            await Promise.all(updatePromises);
+
             const result = await db.collection("Trades").updateOne(
                 { _id: new ObjectId(id_scambio) },
                 { $set: { status: "pending", user_2: { id: id_utente, trading_cards: trading_cards } } }
@@ -126,25 +135,30 @@ module.exports = {
             const user1Cards = trade.user_1.trading_cards;
             const user2Cards = trade.user_2.trading_cards;
 
-            // Aggiornamento delle trading cards per l'utente 1
-            const user1UpdateOperations = user2Cards.map(card => ({
-                updateOne: {
-                    filter: { _id: new ObjectId(trade.user_1.id), "figurine.id": card.id },
-                    update: { $inc: { "figurine.$.quantità": 1 } }
-                }
-            }));
+            const updatePromises = user2Cards.map(async (card) => {
+                const myquery = { _id: new ObjectId(trade.user_1.id) };
+                update = { $push: { figurine: { id: String(card.id), quantità : 1, nome : card.nome, thumbnail : card.thumbnail } } }
 
-            // Aggiornamento delle trading cards per l'utente 2
-            const user2UpdateOperations = user1Cards.map(card => ({
-                updateOne: {
-                    filter: { _id: new ObjectId(trade.user_2.id), "figurine.id": card.id },
-                    update: { $inc: { "figurine.$.quantità": 1 } }
-                }
-            }));
+                // Aggiorna la figurina se esiste
+                t = await db.collection("Users").updateOne(myquery, update);
+                console.log(t);
+            });
 
-            // Esegui le operazioni di aggiornamento
-            await db.collection("Users").bulkWrite(user1UpdateOperations);
-            await db.collection("Users").bulkWrite(user2UpdateOperations);
+            // Attendi il completamento di tutte le operazioni
+            t = await Promise.all(updatePromises);
+            console.log(t);
+
+            const updatePromises2 = user1Cards.map(async (card) => {
+                const myquery = { _id: new ObjectId(trade.user_2.id)};
+                update = { $push: { figurine: { id: String(card.id), quantità : 1, nome : card.nome, thumbnail : card.thumbnail } } }
+
+                // Aggiorna la figurina se esiste
+                t = await db.collection("Users").updateOne(myquery, update);
+                console.log(t);
+            });
+
+            // Attendi il completamento di tutte le operazioni
+            await Promise.all(updatePromises2);
 
             // aggiornamento dello scambio
             const result = await db.collection("Trades").updateOne(
@@ -165,7 +179,7 @@ module.exports = {
             const connection = await connectToDatabase();
             const db = connection.db;
             client = connection.client;
-
+            console.log(trade_id)
             const trade = await db.collection("Trades").findOne({ _id: new ObjectId(trade_id) });
             if (!trade) {
                 return res.status(404).send({ error: "Scambio non trovato" });
@@ -175,28 +189,30 @@ module.exports = {
             const user1Cards = trade.user_1.trading_cards;
             const user2Cards = trade.user_2.trading_cards;
 
-            // Aggiornamento delle trading cards per l'utente 1
-            const user1UpdateOperations = user1Cards.map(card => ({
-                updateOne: {
-                    filter: { _id: new ObjectId(trade.user_1.id), "figurine.id": card.id },
-                    update: { $inc: { "figurine.$.quantità": 1 } }
-                }
-            }));
-
             // Aggiornamento delle trading cards per l'utente 2
             // console.log(trade.user_2.id)
             if (trade.user_2.id !== null) {
-                const user2UpdateOperations = user2Cards.map(card => ({
-                    updateOne: {
-                        filter: { _id: new ObjectId(trade.user_2.id), "figurine.id": card.id },
-                        update: { $inc: { "figurine.$.quantità": 1 } }
-                    }
-                }));
-                await db.collection("Users").bulkWrite(user2UpdateOperations);
+                const updatePromises2 = user2Cards.map(async (card) => {
+                    const myquery = { _id: new ObjectId(trade.user_2.id), 'figurine.id': String(card.id) };
+                    const update = { $inc: { "figurine.$.quantità": 1 } };
+    
+                    // Aggiorna la figurina se esiste
+                    await db.collection("Users").updateOne(myquery, update);
+                });
+    
+                await Promise.all(updatePromises2);
             }
 
-            // Esegui le operazioni di aggiornamento
-            await db.collection("Users").bulkWrite(user1UpdateOperations);
+            const updatePromises = user1Cards.map(async (card) => {
+                const myquery = { _id: new ObjectId(trade.user_1.id), 'figurine.id': String(card.id) };
+                const update = { $inc: { "figurine.$.quantità": 1 } };
+
+                // Aggiorna la figurina se esiste
+                await db.collection("Users").updateOne(myquery, update);
+            });
+
+            // Attendi il completamento di tutte le operazioni
+            await Promise.all(updatePromises);
 
             var msg = await db.collection("Trades").deleteOne({ _id: new ObjectId(trade_id) });
             res.status(200).send(msg)

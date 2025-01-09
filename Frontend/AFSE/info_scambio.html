@@ -76,6 +76,7 @@
                     button.onclick = () => {
                         let clone = button.cloneNode(true);
                         clone.id = hero.id;
+                        clone.dataset.thumbnail = hero.thumbnail;
                         clone.classList.add('heroes');
                         button.classList.add('d-none');
                         selectedHeroes.appendChild(clone);
@@ -129,24 +130,25 @@
                 ar.push(
                     {
                         id: el.id,
-                        nome: el.innerText
+                        nome: el.innerText,
+                        thumbnail: el.dataset.thumbnail
                     }
                 )
             })
-            body = JSON.stringify({
+            // console.log(body)
+            body = {
                 id_utente: id_utente,
                 trading_cards: ar
-            })
-            console.log(body)
+            }
             fetch('/trades/' + id_dello_scambio, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
-                body: body
+                body: JSON.stringify(body)
             })
                 .then(response => {
                     console.log(response)
-                    window.location.href = 'index.html'
-                })
+                    location.href = 'index.html'
+            })
         }
     </script>
 </body>

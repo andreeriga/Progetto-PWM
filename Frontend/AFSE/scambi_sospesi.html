@@ -20,8 +20,8 @@
         <div class="row row-cols-1 mb-3">
             <div class="col">
                 <div class="row fw-bold">
-                    <div class="col id_s">Cosa hai offerto</div>
-                    <div class="col utente">Cosa ti propongono</div>
+                    <div class="col id_s">Proposta</div>
+                    <div class="col utente">Offerta</div>
                     <div class="col text-center bottone">Accetta</div>
                 </div>
             </div>
@@ -64,7 +64,9 @@
                         string += el.nome + " "
                     })
                     clone.getElementsByClassName('offerta')[0].innerHTML = string
-                    if (element.user_1.id !== localStorage.getItem('id')) {
+                    console.log(element.user_1.id, localStorage.getItem('id'));
+                    
+                    if (element.user_1.id != localStorage.getItem('id')) {
                         clone.getElementsByClassName('accetta-offerta')[0].classList.add('disabled')
                     }
                     clone.getElementsByClassName('accetta-offerta')[0].onclick = () => {
