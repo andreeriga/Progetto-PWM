@@ -54,7 +54,7 @@
                     // clone.getElementsByClassName('id_s')[0].innerHTML = element._id
                     // clone.getElementsByClassName('utente')[0].innerHTML = element.user_1.id
                     id_scambio = element._id
-                    var string
+                    var string = ''
                     element.user_1.trading_cards.forEach(el => {
                         string += el.nome + " "
                     })
@@ -64,7 +64,9 @@
                         string += el.nome + " "
                     })
                     clone.getElementsByClassName('offerta')[0].innerHTML = string
-
+                    if (element.user_1.id !== localStorage.getItem('id')) {
+                        clone.getElementsByClassName('accetta-offerta')[0].classList.add('disabled')
+                    }
                     clone.getElementsByClassName('accetta-offerta')[0].onclick = () => {
                         fetch('trades/' + id_scambio + '/accept', {
                             method: "POST",
@@ -72,7 +74,7 @@
                             body: JSON.stringify({ id_utente: element.user_1.id })
                         })
                             .then(res => res.json())
-                            .then(res => console.log(res))
+                            .then(res => {console.log(res);location.reload()})
                     }
                     clone.classList.remove('d-none')
                     colonne.after(clone)

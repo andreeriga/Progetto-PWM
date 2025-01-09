@@ -54,6 +54,9 @@
                    clone.getElementsByClassName('id_s')[0].innerHTML = element._id
                    clone.getElementsByClassName('utente')[0].innerHTML = visualizzaCarte(element.user_1.trading_cards)
                    clone.getElementsByClassName('info-scambio')[0].href = 'info_scambio.html?id=' + element._id; 
+                   if (element.user_1.id === localStorage.getItem('id')) {
+                    clone.getElementsByClassName('info-scambio')[0].classList.add('disabled')
+                   }
                    clone.classList.remove('d-none')
                    colonne.after(clone)
                 });

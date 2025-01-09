@@ -130,7 +130,7 @@ module.exports = {
             const user1UpdateOperations = user2Cards.map(card => ({
                 updateOne: {
                     filter: { _id: new ObjectId(trade.user_1.id), "figurine.id": card.id },
-                    update: { $inc: { "figurine.$.quantità": card.quantità } }
+                    update: { $inc: { "figurine.$.quantità": 1 } }
                 }
             }));
 
@@ -138,7 +138,7 @@ module.exports = {
             const user2UpdateOperations = user1Cards.map(card => ({
                 updateOne: {
                     filter: { _id: new ObjectId(trade.user_2.id), "figurine.id": card.id },
-                    update: { $inc: { "figurine.$.quantità": card.quantità } }
+                    update: { $inc: { "figurine.$.quantità": 1 } }
                 }
             }));
 
