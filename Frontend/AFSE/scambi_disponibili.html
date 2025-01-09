@@ -21,7 +21,7 @@
             <div class="col">
                 <div class="row fw-bold">
                     <div class="col id_s">ID dello scambio</div>
-                    <div class="col utente">ID dell'utente che lo propone</div>
+                    <div class="col utente">Carte proposte</div>
                     <div class="col text-center bottone">Informazioni</div>
                 </div>
             </div>
@@ -52,12 +52,25 @@
                 res.forEach(element => {
                    clone = colonne.cloneNode(true)
                    clone.getElementsByClassName('id_s')[0].innerHTML = element._id
-                   clone.getElementsByClassName('utente')[0].innerHTML = element.user_1.id
+                   clone.getElementsByClassName('utente')[0].innerHTML = visualizzaCarte(element.user_1.trading_cards)
                    clone.getElementsByClassName('info-scambio')[0].href = 'info_scambio.html?id=' + element._id; 
                    clone.classList.remove('d-none')
                    colonne.after(clone)
                 });
             })
+
+        function visualizzaCarte(array) {
+            ar = Array.from(array)
+            res = ""
+            ar.forEach(el => {
+                
+                if (ar.indexOf(el) !== (ar.length-1))
+                    res += el.nome + ", "
+                else 
+                    res += el.nome
+            })
+            return res
+        }
     </script>
 </body>
 

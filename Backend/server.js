@@ -213,6 +213,68 @@ app.post('/marvel/heroes', (req, res) => {
 
 /**
  * @swagger
+ * /superuser:
+ *   post:
+ *     tags: [Superuser]
+ *     summary: Crea un nuovo superuser
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *                 description: Nome del superuser
+ *               email:
+ *                 type: string
+ *                 description: Email del superuser
+ *               password:
+ *                 type: string
+ *                 description: Password del superuser
+ *     responses:
+ *       201:
+ *         description: Superuser creato con successo
+ *       400:
+ *         description: Richiesta non valida
+ *       500:
+ *         description: Errore interno del server
+ */
+app.post('/superuser', async (req, res) => {
+    const { nome, email, password } = req.body;
+    let client;
+    try {
+        if (!nome || !email || !password) {
+            return res.status(400).send('Richiesta non valida');
+        }
+
+        const connection = await connectToDatabase();
+        const db = connection.db;
+        client = connection.client;
+
+        const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+
+        const result = await db.collection("Users").insertOne({
+            nome: nome,
+            email: email,
+            password: hashedPassword,
+            admin : true
+        });
+
+        res.status(201).send({ message: "Superuser creato con successo", userId: result.insertedId });
+    } catch (err) {
+        console.error("Errore nella route '/superuser':", err);
+        res.status(500).send({ error: "Errore interno del server" });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+/**
+ * @swagger
  * /superuser/pack:
  *   post:
  *     tags: [Superuser]

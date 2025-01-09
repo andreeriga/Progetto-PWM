@@ -58,6 +58,7 @@
             .then(ar => displayHeroes(ar.figurine))
 
         function displayHeroes(ar) {
+            console.log(ar)
             const selectHero = document.getElementById('select-hero');
             const selectedHeroes = document.getElementById('selected-hero');
             selectHero.innerHTML = '';

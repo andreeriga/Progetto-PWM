@@ -53,53 +53,66 @@
     <script src="marvel.js"></script>
     <script type="text/javascript" src="https://unpkg.com/validator@latest/validator.min.js"></script>
     <script>
-        fetch('/users/' + localStorage.getItem('id') + '/filtered_trading_cards')
-            .then(response => response.json())
-            .then(ar => displayHeroes(ar.figurine))
+        // Funzione per ottenere le figurine da un ID
+        async function getFigurine(id) {
+            let ar = [];
+            await fetch('/users/' + id + '/trading_cards')
+                .then(response => response.json())
+                .then(response => Array.from(response.figurine).forEach(el => ar.push(el.id)));
+            return ar;
+        }
 
-        function displayHeroes(ar) {
-            figurine_già_in_possesso = []
-            let url = new URL(document.URL);
-            let params = new URLSearchParams(url.search);
-            let figurine_primo
-            id = params.get('id');
-            fetch('/trades/byId/' + id)
-            .then(response => response.json())
-            .then(response => {
-                console.log(response[0].user_1.id)
-                figurine_primo = getFigurine(response[0].user_1.id)
-                console.log(figurine_primo)
-            })
+        // Funzione principale per visualizzare gli eroi
+        async function displayHeroes(ar, figurine_primo) {
             const selectHero = document.getElementById('select-hero');
             const selectedHeroes = document.getElementById('selected-hero');
             selectHero.innerHTML = '';
+
             ar.forEach(hero => {
-                // console.log(ar)
                 if (!figurine_primo.includes(String(hero.id))) {
                     const button = document.createElement('button');
                     button.classList.add('list-group-item', 'text-start', 'border-secondary-subtle', 'border', 'rounded', 'mt-1');
                     button.innerHTML = hero.nome;
                     button.onclick = () => {
-                        clone = button.cloneNode(true)
-                        clone.id = hero.id
-                        clone.classList.add('heroes')
-                        button.classList.add('d-none')
-                        selectedHeroes.appendChild(clone)
+                        let clone = button.cloneNode(true);
+                        clone.id = hero.id;
+                        clone.classList.add('heroes');
+                        button.classList.add('d-none');
+                        selectedHeroes.appendChild(clone);
                     };
                     selectHero.appendChild(button);
                 }
             });
         }
 
-        function getFigurine(id) {
-            ar = []
-            fetch('/users/'+id+'/trading_cards')
-            .then(response => response.json())
-            .then(
-                response => Array.from(response.figurine).forEach(el => ar.push(el.id))
-            )
-            return ar
+        // Funzione per inizializzare i dati
+        async function init() {
+            try {
+                // Recupera i dati del trading per ID
+                let url = new URL(document.URL);
+                let params = new URLSearchParams(url.search);
+                let id = params.get('id');
+
+                let tradeResponse = await fetch('/trades/byId/' + id);
+                let tradeData = await tradeResponse.json();
+
+                // Ottieni le figurine per l'utente 1
+                let figurine_primo = await getFigurine(tradeData[0].user_1.id);
+
+                // Recupera le figurine filtrate dell'utente corrente
+                let userId = localStorage.getItem('id');
+                let userResponse = await fetch('/users/' + userId + '/filtered_trading_cards');
+                let userData = await userResponse.json();
+
+                // Chiama displayHeroes con le figurine dell'utente corrente e quelle dell'utente 1
+                displayHeroes(userData.figurine, figurine_primo);
+            } catch (error) {
+                console.error('Errore durante l\'inizializzazione:', error);
+            }
         }
+
+        init();
+
 
         function fai() {
             let url = new URL(document.URL);
