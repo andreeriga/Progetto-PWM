@@ -12,8 +12,8 @@
     <!-- Main Gradient Circle -->
     <defs>
         <linearGradient id="gradient" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#00009c" stop-opacity="0.7019608" />
-            <stop offset="100%" stop-color="#a00000" stop-opacity="0.7019608" />
+            <stop offset="0%" stop-color="#696969" stop-opacity="0.7019608" />
+            <stop offset="100%" stop-color="#dc1414" stop-opacity="0.7019608" />
         </linearGradient>
     </defs>
     <circle cx="250" cy="250" r="150" fill="url(#gradient)" stroke="#000" stroke-width="5"
