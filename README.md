@@ -77,6 +77,11 @@ Nel database sono già presenti utenti di prova:
 
 I contributi sono benvenuti! Sentiti libero di aprire una Pull Request o segnalare problemi con una Issue.
 
+## Da implementare o migliorare
+- Sistema di pagamento "fittizio", ma con una sorta di checkout
+- Migliorare la parte frontend (Usabilità del sito, alcuni elementi stilistici)
+- Rendere il codice del backend più manutenibile
+
 ## Licenza
 
 Questo progetto è distribuito sotto la licenza MIT.
