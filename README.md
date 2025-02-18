@@ -36,7 +36,7 @@ Questo progetto è stato sviluppato per il corso di Tecnologie e Linguaggi per i
 
 ```bash
 git clone <repo-url>
-cd Marvel-afse
+cd Progetto-PWM
 ```
 
 ### 2. Installare le dipendenze
